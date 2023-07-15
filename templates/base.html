@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=" utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Book Lists</title>
+    {% load static %}
+    <link
+      rel="stylesheet"
+      href="{%static 'style.css'%}"
+      type="text/css"
+      media="screen"
+    />
+    
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Include Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'script.js' %}"></script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+    <a class="navbar-brand" href="{% url 'home' %}">Home</a>
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        {% if user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" style="color:#fff;" href="#" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            User
+          </a>
+          <div class="dropdown-menu" aria-labelledby="profileDropdown">
+             <a class="dropdown-item" style="color:#000;" href="{% url 'profile' %}">Profile</a>
+            {% comment %}<a class="dropdown-item" style="color:#000;" href="{% url 'dashboard' %}">Dashboard</a>
+            <a class="dropdown-item" style="color:#000;" href="{% url 'liked_codes' %}">Liked Codes</a>
+            <a class="dropdown-item" style="color:#000;" href="{% url 'starred_codes' %}">Starred Codes</a>
+            <a class="dropdown-item" style="color:#000;" href="{% url 'logout' %}">Logout</a> {% endcomment %}
+          </div>
+        </li>
+          {% comment %} <li class="nav-item">
+            <a class="nav-link" style="color:#fff;" href="{% url 'upload_code' %}">Upload Code</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" style="color:#fff;" href="{% url 'mycodes' %}">My Codes</a>
+          </li> {% endcomment %}
+          
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" style="color:#fff;" href="{% url 'register' %}">Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" style="color:#fff;" href="{% url 'login' %}">Login</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+  
+  
+  
+    {% block content %}{% endblock %}
+</body>
+</html>

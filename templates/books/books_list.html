@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% comment %} <link
+      rel="stylesheet"
+      href="{%static 'css/multi-select-tag.css'%}"
+      type="text/css"
+      media="screen"
+    />
+    <script src="{% static 'js/multi-select-tag.js' %}"></script>     {% endcomment %}
+    
+
+    
+  
+<div class="container">
+    {% comment %} <div class="form-container">
+    <form method="GET" >
+    <select name="specialists" id="specialists" multiple>
+      {% for specialist in specialists %}
+        <option value="{{ specialist.id }}" {% if specialist.id in selected_specialists %} selected {% endif %}>{{ specialist.name }}</option>
+      {% endfor %}
+    </select>
+    <br>
+    <input type="submit" value="Search" class="form-control btn btn-primary">
+  </form>
+</div> {% endcomment %}
+  
+<br>
+  {% if books %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+                        Title
+                    </th>
+                    <th>
+                        Author
+                    </th>
+                    <th>
+                       Genres
+                    </th>
+                    <th>
+                        Description
+                     </th>
+                    <th>
+                        publication_date
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                <tr>
+                    <td>{{ book.title }}</td>
+                    <td>{{ doctor.author }}</td>
+                    <td><ul>
+                        {% for genre in book.genres.all %}
+                            <li>{{ genre.name }}</li>
+                        {% endfor %}
+                        </ul></td>
+                    
+                    <td>
+                        {{book.descriptiom}}
+                        </td>
+
+                    <td>
+                        {{book.publication_date}}
+                    </td>
+                    <td>
+                        {{book.price}}
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if check %}
+            <div class="center">
+            <div class="pagination1">
+            {% if books.has_previous %}
+                <a href="?page={{ books.previous_page_number }}">Previous</a>
+            {% endif %}
+            {% for page_number in books.paginator.page_range %}
+                        <a
+                            href="?page={{page_number}}"
+                            class="{% if page_number == books.number %}active{% endif %}"
+                        >
+                            {{page_number}}
+                        </a>
+                {% endfor %}
+                {% if books.has_next %}
+                <a href="?page={{ doctors.next_page_number }}">Next</a>
+            {% endif %}
+            </div>
+            </div>
+            {% endif %}
+    </div>
+    {% else %}
+    <p>"No Books found."</p>
+    {% endif %}
+
+    <script>
+        new MultiSelectTag('specialists')
+    </script>
+  
+  {% endblock %}
+  
+  

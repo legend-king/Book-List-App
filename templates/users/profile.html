@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Profile</h2>
+
+<div class="container1">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body">
+                <div class="heading-container">
+                  <h4 class="left-heading">User Profile</h4>
+                  <a href="{% url 'edit_profile' %}" class="btn btn-primary card-button">Edit Profile</a>
+                </div>
+                <br>
+            
+            <p><strong>Name:</strong> {% if profile.name %} {{ profile.name }} {% else %} - {% endif %}</p>
+            <p><strong>Email:</strong> {% if profile.email %} {{ profile.email }} {% else %} - {% endif %}</p>
+            <p><strong>Mobile:</strong> {% if profile.mobile %} {{ profile.mobile }} {% else %} - {% endif %}</p>
+            <p><strong>Gender:</strong> {% if profile.gender %} {{ profile.get_gender_display }} {% else %} - {% endif %}</p>
+            <p><strong>Bio:</strong> {% if profile.bio %} {{ profile.bio }} {% else %} - {% endif %}</p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+{% endblock %}
