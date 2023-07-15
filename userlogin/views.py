@@ -15,12 +15,8 @@ def register(request):
             user = form.save()
             patient = UserProfile(user=user, name=form.cleaned_data['name'],
                             phone_number=form.cleaned_data['phone_number'],
-                            address=form.cleaned_data['address'],
                             email=form.cleaned_data['email'],
-                            gender=form.cleaned_data['gender'],
-                            dob=form.cleaned_data['dob'],
-                            height=form.cleaned_data['height'],
-                            weight=form.cleaned_data['weight'])
+                            gender=form.cleaned_data['gender'],)
             patient.save()
             login(request, user)
             return redirect('home')
