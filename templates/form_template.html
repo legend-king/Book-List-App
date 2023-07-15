@@ -9,7 +9,6 @@
     {% csrf_token %}
     
     {% for field in form %}
-    <div class="form-group">
         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
         {{ field }}
         {% if field.errors %}
@@ -19,7 +18,7 @@
             {% endfor %}
           </ul>
         {% endif %}
-      </div>
+        <br>
     {% endfor %}
 
     {% if form.non_field_errors %}
@@ -29,6 +28,7 @@
             {% endfor %}
           </ul>
         {% endif %}
+        <br>
     
         <button type="submit" class="btn btn-primary btn-block">{{button_text}}</button>
   </form>

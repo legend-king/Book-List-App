@@ -9,9 +9,10 @@
         {% csrf_token %}
         {% for field in form %}
           <div class="form-group">
-            <label for="{{ field.id_for_label }}"><b>{{ field.label }}</b></label>
+            <label for="{{ field.id_for_label }}"><b>{{ field.label }}</b></label><br>
             {{ field }}
           </div>
+          <br>
         {% endfor %}
         
         {% if form.non_field_errors %}

@@ -5,7 +5,6 @@ from django.core.paginator import Paginator
 
 # Create your views here.
 def home(request):
-    # user_codes = Code.objects.filter(uploaded_by=request.user)
     
     books = Book.objects.filter().order_by("-created_at")
     
