@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.shortcuts import render, redirect, HttpResponse
-from .forms import UserProfileForm
+from django.contrib.auth.models import User
+from .forms import UserProfileForm, ProfileEditForm
 from .models import UserProfile
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
@@ -14,7 +15,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             patient = UserProfile(user=user, name=form.cleaned_data['name'],
-                            phone_number=form.cleaned_data['phone_number'],
+                            mobile=form.cleaned_data['mobile'],
                             email=form.cleaned_data['email'],
                             gender=form.cleaned_data['gender'],)
             patient.save()
@@ -55,12 +56,12 @@ def edit_profile(request):
     user = get_object_or_404(UserProfile, user=request.user)
 
     if request.method == 'POST':
-        form = UserProfileForm(request.POST, instance=user)
+        form = ProfileEditForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
-            return redirect("home")
+            return redirect("profile")
     else:
-        form = UserProfileForm(instance=user)
+        form = ProfileEditForm(instance=user)
 
     return render(request, 'form_template.html', {"form": form, "register":"Edit Profile","button_text":"Edit"})
 

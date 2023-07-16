@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="w-100 container1" style="background-color: #fff; border-radius: .5rem .5rem 0 0;margin-top:70px;">
+
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card mb-4" style="margin:10px;">
+          <div class="card-body ">
+            <div class="heading-container" style="margin-bottom:5px;">
+                <h5 class="left-heading">{{ book.title }}</h5>
+                {% if book.uploaded_by == request.user%}
+        
+              <a  class="btn btn-link" href="{% url 'edit_book' book.slug %}">Edit</a>
+            {% endif %}
+              </div>
+            
+            
+            <img src="{{book.cover_page.url}}" alt="Cover Page" class="img-fluid" style="">
+            <p class="text-muted mb-4" style="text-align:right;">by {{book.author}}</p>
+            
+          </div>
+        </div>
+        
+      </div>
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="heading-container" style="margin-bottom:15px;">
+                <a  class="left-heading btn btn-primary" href="{{book.pdf.url}}" download>Download Book</a>        
+              <a  class="btn btn-success" href="{{book.pdf.url}}" target="_blank">View Book</a>
+              </div>
+              <div class="heading-container" style="margin-bottom:15px;">
+                <p  class="left-heading" href="">Uploaded By : {{book.uploaded_by.user.name }}</p>        
+              <p  >Last Edited : {{book.updated_at | timesince }} ago</p>
+              </div>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0"><b>Title</b></p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{book.title}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0"><b>Author</b></p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{book.author}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0"><b>Description</b></p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{book.description}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0"><b>Genres</b></p>
+              </div>
+              <div class="col-sm-9">
+                <ul>
+                    {% for genre in book.genres.all %}
+                        <li>{{ genre.name }}</li>
+                    {% endfor %}
+                    </ul>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0"><b>Language</b></p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{book.language}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0"><b>Price</b></p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">Rs. {{book.price}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0"><b>Published Date</b></p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{book.publication_date}}</p>
+              </div>
+            </div>
+            
+            
+            
+          </div>
+        </div>
+
+        
+         {% comment %} <div class="row">
+          <div class="col-md-6">
+            <div class="card mb-4 mb-md-0">
+              <div class="card-body">
+                <p class="mb-4" style="text-align:center;"><b>{% trans "Body Mass Index (BMI)" %}</b></p>
+                <div class="row">
+                  <div class="col-sm-5">
+                    <p class="mb-0"><b>{% trans "BMI Value : "%}</b></p>
+                  </div>
+                  <div class="col-sm-7">
+                    <p class="text-muted mb-0">{{patient.bmi}}</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-5">
+                    <p class="mb-0"><b>{% trans "Weight Category : "%}</b></p>
+                  </div>
+                  <div class="col-sm-7">
+                    <p class="text-muted mb-0">{{patient.bmi_detail}}</p>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card mb-4 mb-md-0">
+              <div class="card-body">
+                <p class="mb-4" style="text-align:center;"> <b>{% trans "Basic Metabolic Rate (BMR)" %}</b> </p>
+                <div class="row">
+                  <div class="col-sm-5">
+                    <p class="mb-0"><b>{% trans "BMR Value : "%}</b></p>
+                  </div>
+                  <div class="col-sm-7">
+                    <p class="text-muted mb-0">{{patient.bmr}}</p>
+                  </div>
+                </div>
+                <hr>
+                  <div >
+                    <p class="text-muted mb-0">{% trans "This represents the minimum number of calories your body needs to function at rest." %}</p>
+                  </div>
+                
+              </div>
+            </div> {% endcomment %}
+          </div>
+        </div> 
+      </div>
+    </div>
+
+  </section>
+  
+{% endblock %}

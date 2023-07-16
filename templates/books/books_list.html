@@ -47,18 +47,30 @@
                         Language
                      </th>
                     <th>
-                        publication_date
+                        Published_Date
                     </th>
                     <th>
-                        Price
+                        Price (Rs)
                     </th>
+                    <th>
+                        View Book
+                    </th>
+                    <th>
+                        Download Book
+                    </th>
+
+                    {% if edit %}
+                    <th>
+                        Edit
+                    </th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
                 {% for book in books %}
                 <tr>
-                    <td>{{ book.title }}</td>
-                    <td>{{ doctor.author }}</td>
+                    <td><a href="{% url 'book_detail' book.slug %}">{{ book.title }}</a></td>
+                    <td>{{ book.author }}</td>
                     <td><ul>
                         {% for genre in book.genres.all %}
                             <li>{{ genre.name }}</li>
@@ -66,7 +78,7 @@
                         </ul></td>
                     
                     <td>
-                        {{book.description}}
+                        {{ book.description|truncatechars:150 }}
                         </td>
                     <td>
                         {{book.language}}
@@ -78,6 +90,18 @@
                     <td>
                         {{book.price}}
                     </td>
+                    <td>
+                        <a class="btn btn-success" href="{{book.pdf.url}}" target="_blank">View</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" href="{{book.pdf.url}}" download>Download</a>
+                    </td>
+                    {% if edit %}
+                    <td>
+                        
+                        <a class="btn btn-primary" href={% url 'edit_book' book.slug %}>Edit</a>
+                    </td>
+                    {% endif %}
 
                 </tr>
                 {% endfor %}
@@ -99,14 +123,14 @@
                         </a>
                 {% endfor %}
                 {% if books.has_next %}
-                <a href="?page={{ doctors.next_page_number }}">Next</a>
+                <a href="?page={{ books.next_page_number }}">Next</a>
             {% endif %}
             </div>
             </div>
             {% endif %}
     </div>
     {% else %}
-    <p>"No Books found."</p>
+    <p>No Books found.</p>
     {% endif %}
 
     <script>

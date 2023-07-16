@@ -5,7 +5,6 @@
     padding: 10px;
   }
   
-  /* Style the images inside the grid */
   .column img {
     opacity: 0.8;
     cursor: pointer;
@@ -15,12 +14,16 @@
     opacity: 1;
   }
   
-  /* Clear floats after the columns */
   .row:after {
     content: "";
     display: table;
     clear: both;
   }
+  
+  tbody tr ul{
+    padding-left: 15px;
+  }
+
   
   
 
@@ -95,11 +98,11 @@
 
   .navbar a {
     text-decoration: none;
-    color: #fff;
     padding: 5px;
   }
 
   .navbar a:hover {
+    background-color: #007bff;
     color: black;
   }
 
@@ -184,8 +187,11 @@
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
+  }*/
+  .container1 {
+    margin-top: 30px;
   }
-   */
+   
   .card {
     background-color: #fff;
     border-radius: 5px;

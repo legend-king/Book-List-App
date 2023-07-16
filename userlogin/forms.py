@@ -7,7 +7,7 @@ class UserProfileForm(UserCreationForm):
         max_length=100,
         widget=forms.TextInput(attrs={'class': 'form-control'})
     )
-    phone_number = forms.CharField(
+    mobile = forms.CharField(
         max_length=20,
         widget=forms.TextInput(attrs={'class': 'form-control'})
     )
@@ -29,5 +29,25 @@ class UserProfileForm(UserCreationForm):
     )
 
     class Meta:
+        
         model = User
-        fields = ( 'name', 'username','phone_number', 'email', 'gender', 'password1', 'password2')
+        fields = ( 'name', 'username','mobile', 'email', 'gender', 'password1', 'password2')
+
+
+class ProfileEditForm(forms.ModelForm):
+    name = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    mobile = forms.CharField(
+        max_length=20,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    email = forms.EmailField(widget=forms.TextInput(attrs={'class': 'form-control', "type":"email"}))
+    gender = forms.ChoiceField(
+        choices=[('m', "Male"), ("f", "Female"), ("o", "Other")],
+        widget=forms.RadioSelect
+    )
+    class Meta:
+        model = UserProfile
+        fields = ('name', 'mobile', 'email', 'gender')
