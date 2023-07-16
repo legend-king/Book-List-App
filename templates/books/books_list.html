@@ -1,34 +1,49 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-{% comment %} <link
+ <link
       rel="stylesheet"
       href="{%static 'css/multi-select-tag.css'%}"
       type="text/css"
       media="screen"
     />
-    <script src="{% static 'js/multi-select-tag.js' %}"></script>     {% endcomment %}
+    <script src="{% static 'js/multi-select-tag.js' %}"></script>    
     
 
-    
+
   
-<div class="container">
-    {% comment %} <div class="form-container">
+<div class="book-list-container">
+     <div class="form-container">
     <form method="GET" >
-    <select name="specialists" id="specialists" multiple>
-      {% for specialist in specialists %}
-        <option value="{{ specialist.id }}" {% if specialist.id in selected_specialists %} selected {% endif %}>{{ specialist.name }}</option>
+        <div class="row">
+            <div class="col md-6">
+                <label>Genre : </label>
+                <br>
+    <select name="genres" id="genres" multiple>
+      {% for genre in genres %}
+        <option value="{{ genre.id }}" {% if genre.id in selected_genres %} selected {% endif %}>{{ genre.name }}</option>
       {% endfor %}
     </select>
+</div>
+<div class="col md-6">
+    <label>Language : </label>
     <br>
-    <input type="submit" value="Search" class="form-control btn btn-primary">
+    <select name="languages" id="languages" multiple>
+        {% for language in languages %}
+          <option value="{{ language.id }}" {% if language.id in selected_languages %} selected {% endif %}>{{ language.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    </div>
+    <br>
+    <input type="submit" value="Apply" class="form-control btn btn-primary">
   </form>
-</div> {% endcomment %}
+</div> 
   
 <br>
   {% if books %}
     <div class="table-responsive">
-        <table class="table table-bordered table-hover">
+        <table class="table table-bordered table-hover display" id="book-table" style="width:100%">
             <thead class="thead-dark">
                 <tr>
                     <th>
@@ -108,34 +123,53 @@
             </tbody>
         </table>
 
-        {% if check %}
-            <div class="center">
-            <div class="pagination1">
-            {% if books.has_previous %}
-                <a href="?page={{ books.previous_page_number }}">Previous</a>
-            {% endif %}
-            {% for page_number in books.paginator.page_range %}
-                        <a
-                            href="?page={{page_number}}"
-                            class="{% if page_number == books.number %}active{% endif %}"
-                        >
-                            {{page_number}}
-                        </a>
-                {% endfor %}
-                {% if books.has_next %}
-                <a href="?page={{ books.next_page_number }}">Next</a>
-            {% endif %}
-            </div>
-            </div>
-            {% endif %}
+        
     </div>
     {% else %}
     <p>No Books found.</p>
     {% endif %}
 
+
+{% comment %} <div class="col-md-4">
+    <div class="book-list-container">
+      <h2>Filter</h2>
+      <form method="get">
+        <div class="form-group">
+          <label for="search">Search:</label>
+          <input type="text" id="search" name="search" value="{{query}}" placeholder="Enter String to search" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="order">Order by:</label>
+          <select id="order" name="order" class="form-control">
+            <option value="">-- Select --</option>
+            <option value="title">Title</option>
+            <option value="author">Author</option>
+            <!-- Add more options for other fields -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="filter">Filter by:</label>
+          <select id="filter" name="filter" class="form-control">
+            <option value="">-- Select --</option>
+            <option value="genre">Genre</option>
+            <option value="language">Language</option>
+            <!-- Add more options for other fields -->
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Apply</button>
+      </form>
+    </div>
+  </div> {% endcomment %}
     <script>
-        new MultiSelectTag('specialists')
+        new MultiSelectTag('genres')
+        new MultiSelectTag('languages')
     </script>
+
+    <script>
+        $(document).ready(function() {
+          $('#book-table').DataTable();
+        });
+        </script>
   
   {% endblock %}
   

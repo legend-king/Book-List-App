@@ -24,18 +24,15 @@ class BookForm(forms.ModelForm):
     price = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "type":"number"}))
     publication_date = forms.DateField(widget=forms.DateInput(attrs={"class":"form-control", "type":"date"}))
 
-    cover_page = forms.FileField(widget=forms.FileInput(attrs={'type': 'file', 'class':"form-control"}),validators=[
-            FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg'])
-        ])
-
-    pdf = forms.FileField(label="Book Pdf",widget=forms.FileInput(attrs={'type': 'file', 'class':"form-control"}),validators=[
-            FileExtensionValidator(allowed_extensions=['pdf'])
-        ])
+    pdf = forms.FileField(
+        label="Book Pdf",
+        validators=[FileExtensionValidator(allowed_extensions=['pdf'])]
+    )
     
     class Meta:
         model = Book
         fields = ('title', 'author', 'language', 'genres', 'description', 'price', 'publication_date', 'cover_page', 'pdf')
 
         widgets = {
-            "language": forms.Select(attrs={"class":"form-control"})
+            "language": forms.Select(attrs={"class":"form-control"}),
         }

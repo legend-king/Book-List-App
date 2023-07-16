@@ -22,7 +22,7 @@ class Book(models.Model):
     language = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True)
     publication_date = models.DateField()
     slug = models.SlugField(unique=True, max_length=255, null=True, blank=True)
-    cover_page = models.ImageField(upload_to='cover_page', null=True, blank='True')
+    cover_page = models.ImageField(upload_to='cover_page', null=True, blank=True)
     pdf = models.FileField(upload_to='books')
     price = models.DecimalField(max_digits=6, decimal_places=2)
     description = models.TextField()
@@ -32,8 +32,14 @@ class Book(models.Model):
     
 
     def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.title)
+        if not self.slug or Book.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():
+            base_slug = slugify(self.title)
+            unique_slug = base_slug
+            counter = 1
+            while Book.objects.filter(slug=unique_slug).exclude(pk=self.pk).exists():
+                unique_slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = unique_slug
         super().save(*args, **kwargs)
     
 

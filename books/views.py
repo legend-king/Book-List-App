@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Book
+from .models import Book, Genre, Language
 from .forms import BookForm
 from django.db.models import Q
 from django.core.paginator import Paginator
@@ -7,14 +7,24 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home(request):
-    books = Book.objects.filter().order_by("-created_at")
-    books_per_page = 10
-    paginator = Paginator(books, per_page=books_per_page)
-    page_number = request.GET.get('page', 1)
-    books = paginator.get_page(page_number)
+    genre_ids = request.GET.getlist('genres')
+    language_ids = request.GET.getlist('languages')
+
+    books = Book.objects.filter()
+
+    if genre_ids:
+        books = books.filter(genres__id__in=genre_ids)
+
+    if language_ids:
+        books = books.filter(language__id__in=language_ids)
+
+    books = books.distinct().order_by("-created_at")
     context = {
         'books': books,
-        'check':paginator.count>books_per_page and books,
+        'genres':Genre.objects.all(),
+        'selected_genres':[int(i) for i in genre_ids],
+        'languages':Language.objects.all(),
+        'selected_languages':[int(i) for i in language_ids],
         'edit':False
     }
     return render(request, 'books/books_list.html', context)
@@ -47,30 +57,37 @@ def edit_book(request,slug):
         form = BookForm(request.POST, request.FILES, instance=book)
         if form.is_valid():
             form.save()
-
-            # selected_genres = form.cleaned_data['genres']
-
-            # book.genres.set(selected_genres)
             
-            # book.save()
-            
-            return redirect('home')
+            return redirect('book_detail', slug)
     else:
         form = BookForm(instance=book)
+    form.fields['cover_page'].widget.attrs['value'] = book.cover_page.url if book.cover_page else ''
+    form.fields['pdf'].widget.attrs['value'] = book.pdf.url if book.pdf else ''
     
     return render(request, 'form_template.html', {'form': form,"register":"Book Edit","button_text":"Edit Book"})
 
 
 @login_required(login_url='login')
 def my_books(request):
-    books = Book.objects.filter(uploaded_by=request.user).order_by("-created_at")
-    books_per_page = 10
-    paginator = Paginator(books, per_page=books_per_page)
-    page_number = request.GET.get('page', 1)
-    books = paginator.get_page(page_number)
+    genre_ids = request.GET.getlist('genres')
+    language_ids = request.GET.getlist('languages')
+
+    books = Book.objects.filter(uploaded_by=request.user)
+
+    if genre_ids:
+        books = books.filter(genres__id__in=genre_ids)
+
+    if language_ids:
+        books = books.filter(language__id__in=language_ids)
+
+    books = books.order_by("-created_at")
+    
     context = {
         'books': books,
-        'check':paginator.count>books_per_page and books,
+        'genres':Genre.objects.all(),
+        'selected_genres':[int(i) for i in genre_ids],
+        'languages':Language.objects.all(),
+        'selected_languages':[int(i) for i in language_ids],
         'edit':True
     }
     return render(request, 'books/books_list.html', context)
